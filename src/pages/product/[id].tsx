@@ -15,12 +15,18 @@ interface ProductProps {
         imageUrl: string;
         price: string;
         description: string;
+        defaultPriceId: string;
     
       }
 }
 
 
 export default function Product( { product } : ProductProps  ) {
+
+    function handleBuyProduct() {
+        console.log(product.defaultPriceId)
+    }
+
     const { isFallback } = useRouter()
 
     if (isFallback) {
@@ -40,7 +46,7 @@ export default function Product( { product } : ProductProps  ) {
 
                 <p>{product.description}</p>
 
-                <button>
+                <button onClick={handleBuyProduct}>
                     Comprar Agora
                 </button>
             </ProductDetails>
@@ -82,6 +88,7 @@ export const getStaticProps: GetStaticProps<any, { id: string }> = async ({ para
                 }).format(price.unit_amount! / 100), // vem em centavos
 
                 description: product.description,
+                defaultPriceId: price.id,
             }
 
         },
