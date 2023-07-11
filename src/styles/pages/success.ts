@@ -1,5 +1,10 @@
 import { styled } from "@stitches/react";
 
+// # APP
+// Colocar também no .env.local
+//NEXT_URL = http://localhost:3000/ 
+
+
 export const SuccessContainer = styled('main', {
     display: 'flex',
     flexDirection: 'column',
