@@ -13,13 +13,13 @@ interface SuccessProps {
     }
 }
 
-export default function Success( { customerName, product}: SuccessProps) {
+export default function Success({ customerName, product }: SuccessProps) {
     return (
         <SuccessContainer>
             <h1>Compra Efetuada</h1>
 
             <ImageContainer>
-                <Image src={product.imageUrl} alt = '' width={120} height={110}/>
+                <Image src={product.imageUrl} alt='' width={120} height={110} />
             </ImageContainer>
 
             <p>
@@ -33,13 +33,23 @@ export default function Success( { customerName, product}: SuccessProps) {
     )
 }
 
-export const getServerSideProps: GetServerSideProps = async( { query , params } ) => {
+export const getServerSideProps: GetServerSideProps = async ({ query, params }) => {
 
+    if (!query.session_id) {
+        return {
+            redirect: {
+                destination: "/",
+                permanent: false,
+            }
+        }
+    }
     const sessionId = String(query.session_id)
 
-    const session = await stripe.checkout.sessions.retrieve(sessionId , {
-        expand: ['line_items' , 'line_items.data.price.product']
-    }) 
+
+
+    const session = await stripe.checkout.sessions.retrieve(sessionId, {
+        expand: ['line_items', 'line_items.data.price.product']
+    })
 
     console.log(session.line_items.data)
 
