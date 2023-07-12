@@ -3,6 +3,7 @@ import { stripe } from "@/lib/stripe"
 import { ImageContainer, ProductCointainer, ProductDetails } from "@/styles/pages/product"
 import axios from "axios"
 import { GetStaticPaths, GetStaticProps } from "next"
+import Head from "next/head"
 import Image from "next/image"
 import { useRouter } from "next/router"
 import { useState } from "react"
@@ -24,7 +25,7 @@ interface ProductProps {
 
 
 export default function Product({ product }: ProductProps) {
-    
+
     const [isCreatintingCheckoutSession, setIsCreatingCheckoutSession] = useState(false)
 
     async function handleBuyProduct() {
@@ -57,22 +58,29 @@ export default function Product({ product }: ProductProps) {
 
 
     return (
-        <ProductCointainer>
-            <ImageContainer>
-                <Image src={product.imageUrl} alt="" width={520} height={480} />
-            </ImageContainer>
+        <>
+            <Head>
+                <title>
+                    {product.name} | Ignite Shop
+                </title>
+            </Head>
+            <ProductCointainer>
+                <ImageContainer>
+                    <Image src={product.imageUrl} alt="" width={520} height={480} />
+                </ImageContainer>
 
-            <ProductDetails>
-                <h1>{product.name}</h1>
-                <span>{product.price}</span>
+                <ProductDetails>
+                    <h1>{product.name}</h1>
+                    <span>{product.price}</span>
 
-                <p>{product.description}</p>
+                    <p>{product.description}</p>
 
-                <button disabled = {isCreatintingCheckoutSession} onClick={handleBuyProduct}>
-                    Adicionar ao Carrinho
-                </button>
-            </ProductDetails>
-        </ProductCointainer>
+                    <button disabled={isCreatintingCheckoutSession} onClick={handleBuyProduct}>
+                        Adicionar ao Carrinho
+                    </button>
+                </ProductDetails>
+            </ProductCointainer>
+        </>
     )
 }
 
